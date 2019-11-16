@@ -7,6 +7,7 @@ def scrape():
     executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
     browser = Browser('chrome', **executable_path, headless=False)
 
+    # Get news data
     url_nasa = 'https://mars.nasa.gov/news/'
 
     browser.visit(url_nasa)
@@ -18,7 +19,8 @@ def scrape():
         # Retrieve all elements that contain book information
         news_title = soup.find('div',class_='content_title').a.text
         news_p = soup.find('div',class_='article_teaser_body').get_text()
-        
+
+    # Get featured image    
     url_jpl = 'https://www.jpl.nasa.gov/spaceimages/?search=&category=Mars'
 
     browser.visit(url_jpl)
@@ -35,6 +37,7 @@ def scrape():
     except TypeError:
         featured_image_url = 'https://www.jpl.nasa.gov' + '/spaceimages/images/mediumsize/PIA16883_ip.jpg'
 
+    # Get twitter weather report
     url_twitter = 'https://twitter.com/marswxreport?lang=en'
 
     browser.visit(url_twitter)
@@ -48,7 +51,7 @@ def scrape():
 
         
 
-
+    # Get facts
     url_facts = 'https://space-facts.com/mars/'
 
     tables = pd.read_html(url_facts)
@@ -56,6 +59,8 @@ def scrape():
 
     html_table = df.to_html()
 
+
+    # Get four images
     url_astro = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 
     browser.visit(url_astro)
