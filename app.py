@@ -1,5 +1,5 @@
-from flask import Flask, render_template,jsonify
-
+from flask import Flask, render_template,redirect
+from scrape_mars import scrape
 # Import our pymongo library, which lets us connect our Flask app to our Mongo database.
 import pymongo
 import json
@@ -57,17 +57,19 @@ mars_data = {
   "news_title": "NASA's Mars 2020 Will Hunt for Microscopic Fossils"
 }
 
+#collection.update({},scrape(),upsert=True)
+
 # Set route
 @app.route('/')
 def index():
     # Store the entire team collection in a list
-    #facts = db.mars.find()
+    facts = db.mars.find()
 
     #for fact in facts:
-    #   return(fact)
-    return('Hello World')
+       #return(fact)
+    #return(facts)
     # Return the template with the teams list passed in
-    #return render_template('index.html', teams=teams)
+    return render_template('index.html', facts=facts[0])
 
 
 
@@ -77,13 +79,11 @@ def index():
 
 @app.route("/scrape")
 def welcome():
-    from scrape_mars import scrape
-    #output = scrape()
     output = scrape()
-    #collection.insert(output)
+    
     collection.update({},output,upsert=True)
-    return (output)
-
+    #return (output)
+    return redirect("/")
 # @app.route("/api/v1.0/precipitation")
 # def precip():
 #     measurements.dropna(inplace=True)

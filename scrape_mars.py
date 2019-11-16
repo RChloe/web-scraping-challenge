@@ -95,7 +95,7 @@ def scrape():
     results_dict['mars_weather']=mars_weather
     results_dict['html_table']=html_table
     results_dict['hemisphere_image_urls']=hemisphere_image_urls
-
+    browser.quit()
     return(results_dict)
         
 #scrape()
